@@ -42,9 +42,9 @@ def read_files(files):
 
 ## Function to load Google Gemini Pro Vision API And get response
 
-def get_gemini_repsonse(prompt,text, research_title, research_questions, research_objectives, type_of_review, structure_of_the_review, subsection):
+def get_gemini_repsonse(prompt, research_title, research_questions, research_objectives, type_of_review, structure_of_the_review, subsection):
     model=genai.GenerativeModel('gemini-pro')
-    response=model.generate_content([prompt,text, research_title, research_questions, research_objectives, type_of_review, structure_of_the_review, subsection])
+    response=model.generate_content([prompt, research_title, research_questions, research_objectives, type_of_review, structure_of_the_review, subsection])
     return response.text
 
 
@@ -54,7 +54,7 @@ st.set_page_config(page_title="Class Help")
 
 st.header("Class Help")
 #Subject
-uploaded_file=st.file_uploader("Uplaod a PDF or txt file", accept_multiple_files=True)
+#uploaded_file=st.file_uploader("Uplaod a PDF or txt file", accept_multiple_files=True)
 
 #Subject
 research_title=st.text_input("What is your research title",max_chars=1000)
@@ -89,12 +89,13 @@ curiosity, foster engagement, and empower all students to succeed."
 
 
 Your currently work is to conducting literature reviews for research projects. You are being provided with the{research_title},{research_questions}, \
-{research_objectives}, {type_of_literature_review},{structure_of_the_review}, {subsection}, and {text} which contains research articles. You are required to generate a literature review \
+{research_objectives}, {type_of_literature_review},{structure_of_the_review}, {subsection}. You are required to generate a literature review \
 based on the provided information. You are expected to follow the provided structure and include the specified subsection in the body of the literature review. \
 You are also required to include relevant information from the research questions and objectives in the literature review. \
 Your literature review should be well-organized, clearly written, and demonstrate a comprehensive understanding of the research topic. \
 You should also provide evidence-based arguments and support your claims with relevant sources. Your literature review should be approximately 14000 words in length. \
-You should also include a reference list at the end of the literature review. You are encouraged to use a variety of sources, including academic journals, books, and reputable websites other then ones provided. \
+You should also include a reference list at the end of the literature review. You are encouraged to use a variety of sources, including academic journals, books, and reputable websites that reflect \
+the independent variables, dependent variables, and thier sub-variables. \
 You should also cite your sources using APA style and intext citing.
 
 here are extra tip to help you generate the literature review:
@@ -130,12 +131,12 @@ the INTRODUCTION should be approximately 1120 words, the BODY should be approxim
 
 ## If submit button is clicked
 
-if submit and uploaded_file is not None and research_title and research_questions and type_of_review and structure_of_the_review and subsection:
+if submit and subsection is not None and research_title and research_questions and type_of_review and structure_of_the_review and research_objectives:
         with st.spinner("loading..."):
             try:
-                text = read_files(uploaded_file)
+                #text = read_files(uploaded_file)
         
-                response=get_gemini_repsonse(input_prompt,text, research_title, research_questions, research_objectives, type_of_review, structure_of_the_review, subsection)
+                response=get_gemini_repsonse(input_prompt, research_title, research_questions, research_objectives, type_of_review, structure_of_the_review, subsection)
                 st.subheader("Literature Review Generated")
                 st.write(response)
             except Exception as e:
